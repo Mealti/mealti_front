@@ -3,6 +3,7 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
+import { useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
@@ -18,12 +19,22 @@ import Colors from "constants/Colors";
 import useColorScheme from "hooks/useColorScheme";
 import ModalScreen from "screens/ModalScreen";
 import NotFoundScreen from "screens/NotFoundScreen";
-import TabOneScreen from "screens/TabOneScreen";
-import TabTwoScreen from "screens/TabTwoScreen";
+import {
+  LoginScreen,
+  NickNameScreen,
+  StartDayScreen,
+  FoodExpensesScreen,
+} from "screens/auth";
+import MainScreen from "screens/MainScreen";
+import CommunityScreen from "screens/CommunityScreen";
+import AccountScreen from "screens/AccountScreen";
+import RandomScreen from "screens/RandomScreen";
+import MyPageScreen from "screens/MyPageScreen";
 import {
   RootStackParamList,
   RootTabParamList,
   RootTabScreenProps,
+  AuthParamList,
 } from "types/index";
 import LinkingConfiguration from "navigation/LinkingConfiguration";
 
@@ -49,8 +60,17 @@ export default function Navigation({
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
+  const authCtx = false; //일단 로그인 하는 페이지부터
+  // const authCtx = useContext(AuthContext);
   return (
     <Stack.Navigator>
+      {!authCtx && (
+        <Stack.Screen
+          name="Auth"
+          component={AuthStackNavigator}
+          options={{ headerShown: false }}
+        />
+      )}
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
@@ -68,6 +88,22 @@ function RootNavigator() {
   );
 }
 
+const AuthStack = createNativeStackNavigator<AuthParamList>();
+
+const AuthStackNavigator = () => {
+  return (
+    <AuthStack.Navigator
+      screenOptions={{
+        headerTintColor: "white",
+      }}
+    >
+      <AuthStack.Screen name="Login" component={LoginScreen} />
+      <AuthStack.Screen name="NickName" component={NickNameScreen} />
+      <AuthStack.Screen name="StartDay" component={StartDayScreen} />
+      <AuthStack.Screen name="FoodExpenses" component={FoodExpensesScreen} />
+    </AuthStack.Navigator>
+  );
+};
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
  * https://reactnavigation.org/docs/bottom-tab-navigator
@@ -79,16 +115,16 @@ function BottomTabNavigator() {
 
   return (
     <BottomTab.Navigator
-      initialRouteName="TabOne"
+      initialRouteName="Main"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
       }}
     >
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneScreen}
-        options={({ navigation }: RootTabScreenProps<"TabOne">) => ({
-          title: "Tab One",
+        name="Account"
+        component={AccountScreen}
+        options={({ navigation }: RootTabScreenProps<"Account">) => ({
+          title: "가계부",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
           headerRight: () => (
             <Pressable
@@ -108,10 +144,35 @@ function BottomTabNavigator() {
         })}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoScreen}
+        name="Random"
+        component={RandomScreen}
         options={{
-          title: "Tab Two",
+          title: "랜덤",
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+
+      <BottomTab.Screen
+        name="Main"
+        component={MainScreen}
+        options={{
+          title: "메인",
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="Community"
+        component={CommunityScreen}
+        options={{
+          title: "커뮤니티",
+          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        }}
+      />
+      <BottomTab.Screen
+        name="MyPage"
+        component={MyPageScreen}
+        options={{
+          title: "마이페이지",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
