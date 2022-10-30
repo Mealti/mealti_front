@@ -1,8 +1,12 @@
 import React from "react";
 import { RootTabScreenProps } from "types";
-import { Text } from "components/Themed";
+import { Text, View } from "react-native";
 const Community = ({ navigation }: RootTabScreenProps<"Community">) => {
-  return <Text>Community</Text>;
+  return (
+    <View>
+      <Text>Community</Text>
+    </View>
+  );
 };
 
 export default Community;

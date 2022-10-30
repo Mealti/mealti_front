@@ -3,28 +3,19 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
+
 import { useState } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import {
-  NavigationContainer,
-  DefaultTheme,
-  DarkTheme,
-} from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import { ColorSchemeName, Pressable } from "react-native";
+import { Pressable } from "react-native";
 
-import Colors from "constants/Colors";
 import useColorScheme from "hooks/useColorScheme";
 import ModalScreen from "screens/ModalScreen";
 import NotFoundScreen from "screens/NotFoundScreen";
-import {
-  LoginScreen,
-  NickNameScreen,
-  StartDayScreen,
-  FoodExpensesScreen,
-} from "screens/auth";
+import { LoginScreen, SignUpScreen } from "screens/auth";
 import MainScreen from "screens/MainScreen";
 import CommunityScreen from "screens/CommunityScreen";
 import AccountScreen from "screens/AccountScreen";
@@ -35,19 +26,17 @@ import {
   RootTabParamList,
   RootTabScreenProps,
   AuthParamList,
+  AuthScreenProps,
 } from "types/index";
 import LinkingConfiguration from "navigation/LinkingConfiguration";
 
-export default function Navigation({
-  colorScheme,
-}: {
-  colorScheme: ColorSchemeName;
-}) {
+import OnBoarding from "screens/OnBoarding";
+import InformationScreen from "screens/auth/InformationScreen";
+import LargeText from "components/ui/LargeText";
+
+export default function Navigation() {
   return (
-    <NavigationContainer
-      linking={LinkingConfiguration}
-      theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-    >
+    <NavigationContainer linking={LinkingConfiguration}>
       <RootNavigator />
     </NavigationContainer>
   );
@@ -64,17 +53,18 @@ function RootNavigator() {
   // const authCtx = useContext(AuthContext);
   return (
     <Stack.Navigator>
-      {!authCtx && (
-        <Stack.Screen
-          name="Auth"
-          component={AuthStackNavigator}
-          options={{ headerShown: false }}
-        />
-      )}
+      {/* 수정 */}
+      {/* {!authCtx && ( */}
+      <Stack.Screen
+        name="Auth"
+        component={AuthStackNavigator}
+        options={{ headerShown: false }}
+      />
+      {/* )} */}
       <Stack.Screen
         name="Root"
         component={BottomTabNavigator}
-        options={{ headerShown: false }}
+        options={{ headerTitle: () => <LargeText text="Mealti" /> }}
       />
       <Stack.Screen
         name="NotFound"
@@ -94,13 +84,14 @@ const AuthStackNavigator = () => {
   return (
     <AuthStack.Navigator
       screenOptions={{
-        headerTintColor: "white",
+        headerShown: false,
       }}
+      initialRouteName="OnBoarding"
     >
+      <AuthStack.Screen name="OnBoarding" component={OnBoarding} />
       <AuthStack.Screen name="Login" component={LoginScreen} />
-      <AuthStack.Screen name="NickName" component={NickNameScreen} />
-      <AuthStack.Screen name="StartDay" component={StartDayScreen} />
-      <AuthStack.Screen name="FoodExpenses" component={FoodExpensesScreen} />
+      <AuthStack.Screen name="SignUp" component={SignUpScreen} />
+      <AuthStack.Screen name="Information" component={InformationScreen} />
     </AuthStack.Navigator>
   );
 };
@@ -116,38 +107,40 @@ function BottomTabNavigator() {
   return (
     <BottomTab.Navigator
       initialRouteName="Main"
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}
+      // screenOptions={{}}
     >
       <BottomTab.Screen
         name="Account"
         component={AccountScreen}
-        options={({ navigation }: RootTabScreenProps<"Account">) => ({
-          title: "가계부",
+        // options={({ navigation }: RootTabScreenProps<"Account">) => ({
+        //   title: "가계부",
+        //   tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+        //   headerRight: () => (
+        //     <Pressable
+        //       onPress={() => navigation.navigate("Modal")}
+        //       style={({ pressed }) => ({
+        //         opacity: pressed ? 0.5 : 1,
+        //       })}
+        //     >
+        //       <FontAwesome
+        //         name="info-circle"
+        //         size={25}
+        //         style={{ marginRight: 15 }}
+        //       />
+        //     </Pressable>
+        //   ),
+        // })}
+        options={{
+          headerShown: false,
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("Modal")}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
-        })}
+        }}
       />
       <BottomTab.Screen
         name="Random"
         component={RandomScreen}
         options={{
-          title: "랜덤",
+          headerShown: false,
+          // title: "랜덤",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
@@ -156,7 +149,8 @@ function BottomTabNavigator() {
         name="Main"
         component={MainScreen}
         options={{
-          title: "메인",
+          headerShown: false,
+          // title: "메인",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
@@ -164,7 +158,8 @@ function BottomTabNavigator() {
         name="Community"
         component={CommunityScreen}
         options={{
-          title: "커뮤니티",
+          headerShown: false,
+          // title: "커뮤니티",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />
@@ -172,7 +167,8 @@ function BottomTabNavigator() {
         name="MyPage"
         component={MyPageScreen}
         options={{
-          title: "마이페이지",
+          headerShown: false,
+          // title: "마이페이지",
           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
         }}
       />

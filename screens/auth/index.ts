@@ -1,6 +1,4 @@
 import LoginScreen from "screens/auth/LoginScreen";
-import NickNameScreen from "screens/auth/NickNameScreen";
-import FoodExpensesScreen from "screens/auth/FoodExpensesScreen";
-import StartDayScreen from "screens/auth/StartDayScreen";
+import SignUpScreen from "screens/auth/SignUpScreen";
 
-export { LoginScreen, NickNameScreen, FoodExpensesScreen, StartDayScreen };
+export { LoginScreen, SignUpScreen };

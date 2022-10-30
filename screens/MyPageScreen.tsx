@@ -1,9 +1,14 @@
 import React from "react";
 import { RootTabScreenProps } from "types";
-import { Text } from "components/Themed";
 
-const MyPage = ({ navigation }: RootTabScreenProps<"MyPage">) => {
-  return <Text>MyPage</Text>;
+import { View, Text } from "react-native";
+
+const MyPageScreen = ({ navigation }: RootTabScreenProps<"MyPage">) => {
+  return (
+    <View>
+      <Text>MyPageScreen</Text>
+    </View>
+  );
 };
 
-export default MyPage;
+export default MyPageScreen;

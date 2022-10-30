@@ -1,18 +1,12 @@
 import React from "react";
 import { AuthScreenProps } from "types";
-import { Text, View } from "components/Themed";
-import { Button } from "react-native";
+import AuthContent from "components/auth/AuthContent";
 
 const Login = ({ navigation }: AuthScreenProps<"Login">) => {
   const handlePress = () => {
-    navigation.navigate("NickName");
+    navigation.navigate("Information");
   };
-  return (
-    <View>
-      <Text>Login</Text>
-      <Button title="로그인" onPress={handlePress} />
-    </View>
-  );
+  return <AuthContent isLogin handlePress={handlePress} />;
 };
 
 export default Login;

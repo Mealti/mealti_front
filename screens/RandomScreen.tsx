@@ -1,9 +1,13 @@
 import React from "react";
 import { RootTabScreenProps } from "types";
-import { Text } from "components/Themed";
+import { Text, View } from "react-native";
 
 const Random = ({ navigation }: RootTabScreenProps<"Random">) => {
-  return <Text>Random</Text>;
+  return (
+    <View>
+      <Text>RandomScreen</Text>
+    </View>
+  );
 };
 
 export default Random;

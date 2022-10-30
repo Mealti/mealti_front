@@ -1,21 +1,24 @@
 import { StatusBar } from "expo-status-bar";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-
+import { ThemeProvider } from "styled-components/native";
 import useCachedResources from "hooks/useCachedResources";
-import useColorScheme from "hooks/useColorScheme";
 import Navigation from "navigation";
-export default function App() {
-  const isLoadingComplete = useCachedResources();
-  const colorScheme = useColorScheme();
+import { useState } from "react";
+import { lightTheme, darkTheme } from "theme";
 
+const App = () => {
+  const isLoadingComplete = useCachedResources();
+  const [isDark, setIsDark] = useState(false);
+  const _toggleSwitch = () => setIsDark(!isDark);
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
+      <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
+        <Navigation />
         <StatusBar />
-      </SafeAreaProvider>
+      </ThemeProvider>
     );
   }
-}
+};
+
+export default App;
